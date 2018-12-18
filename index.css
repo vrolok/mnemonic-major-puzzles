@@ -1,0 +1,30 @@
+body {
+	font-family: 'Open Sans', sans-serif;
+}
+
+#container {
+	display: grid;
+	grid-template-columns: auto;
+	margin-top: 25vh;
+}
+
+#header {
+	display: flex;
+	justify-content: center;
+	font-size: 32px;
+	padding: 15px;
+}
+
+#footer {
+	display: flex;
+	justify-content: center;
+	font-size: 16px;
+}
+
+#app {
+	display: flex;
+	justify-content: center;
+	flex-wrap: wrap;
+	margin-left: 50px;
+	margin-right: 50px;
+}
