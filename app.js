@@ -103,29 +103,13 @@
 		const styledInput = input.style;
 		styledInput.outlineStyle = 'solid';
 		styledInput.width = '100px';
-		
-//		input.addEventListener('keyup', function(e) {
-//			// on "Enter" key
-//			if (e.keyCode == 13 && input.value.length) {
-//				
-//				let result = compareValues(str, input.value);
-//				
-//				if (result) {
-//					styledInput.outlineColor = '#05ffb0';
-//				} else {
-//					styledInput.outlineColor = 'red';
-//				}
-//			}
-//		})
-		
+
 		input.addEventListener('input', function(e) {
 			let result = compareValues(str, input.value);
 				if (result) {
 					styledInput.outlineColor = '#05ffb0';
-					
-					solved.initCustomEvent('solved', true, false, { id });
-					newDiv.dispatchEvent(solved);
-					
+
+					window.pubsub.publish('solved', { id });					
 				} else {
 					styledInput.outlineColor = 'red';
 				}
@@ -179,8 +163,8 @@
 		// Once solved makePuzzle func will fire an event.
 		// Let's listen for that event and delete the solved puzzle,
 		// after that add a new one also.
-		document.addEventListener('solved', function(e) {
-			const id = e.detail.id;
+		window.pubsub.subscribe('solved', function(obj) {
+			var id = obj.id;
 			setTimeout(() => delPuzzle(id), 3000);
 			setTimeout(() => addPuzzles(genPuzzles(1, words)), 4000);
 		})
