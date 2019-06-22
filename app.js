@@ -1,4 +1,4 @@
-(function (window) {
+(function appFactory(window) {
 	'use strict';
 	
 	const rules = {
@@ -39,7 +39,7 @@
 		return acc;
 	}, [])
 	
-	const solved = document.createEvent('CustomEvent');
+	// const solved = document.createEvent('CustomEvent');
 		
 	const compareValues = (q, a) => {
 		// @param {String} q - question
@@ -47,7 +47,7 @@
 		let transformedQ;
 		let transformedA;
 		
-		if (!isNaN(q)) {
+		if (Number.isInteger(q)) {
 			// if input is a number, transform input numbers to an arr of letters
 			// e.g. 42 => [[r], [n]]
 			transformedQ = transformNumbers(Array.from(q.toString()));
@@ -109,7 +109,7 @@
 				if (result) {
 					styledInput.outlineColor = '#05ffb0';
 
-					window.pubsub.publish('solved', { id });					
+					window.app.pubsub.publish('solved', { id });
 				} else {
 					styledInput.outlineColor = 'red';
 				}
@@ -163,7 +163,7 @@
 		// Once solved makePuzzle func will fire an event.
 		// Let's listen for that event and delete the solved puzzle,
 		// after that add a new one also.
-		window.pubsub.subscribe('solved', function(obj) {
+		window.app.pubsub.subscribe('solved', function solved(obj) {
 			var id = obj.id;
 			setTimeout(() => delPuzzle(id), 3000);
 			setTimeout(() => addPuzzles(genPuzzles(1, words)), 4000);
@@ -171,7 +171,7 @@
 	}
 	catch(error) {
 		console.warn('Something is wrong, ', error);
-		addPuzzles(genWordPuzzles(1, ['Error']));
+		addPuzzles(genPuzzles(1, ['Error']));
 	}
 	
 })(window);
