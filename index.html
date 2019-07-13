@@ -6,7 +6,7 @@
 	<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
 	<link rel="stylesheet" href="normalize.css">
 	<link rel="stylesheet" href="index.css">
-</head>	
+</head>
 <body>
 	<div id="container">
 		<div id="header">Memorize by solving "major" puzzles</div>
@@ -14,9 +14,24 @@
 		<div id="footer">
 			<p>*Example words extracted from <a href="https://en.wikipedia.org/wiki/Mnemonic_major_system">Wikipedia</a></p>
 		</div>
+		<script type="text/template" id="stats-template">
+			<span class="solved-count"></span>
+			<ul class="filters">
+				<li>
+					<a class="selected" href="#/">Random</a>
+				</li>
+				<li>
+					<a href="#/numbers">Numbers</a>
+				</li>
+				<li>
+					<a href="#/words">Words</a>
+				</li>
+			</ul>
+		</script>
 	</div>
 </body>
-<script src="./src/pub-sub.js"></script>
-<script src="./src/misc.js"></script>
+<script src="node_modules/underscore/underscore-min.js"></script>
+<script src="node_modules/jquery/dist/jquery.min.js"></script>
+<script src="node_modules/backbone/backbone-min.js"></script>
 <script src="app.js"></script>
 </html>

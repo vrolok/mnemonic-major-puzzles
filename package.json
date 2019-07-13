@@ -1,0 +1,15 @@
+{
+  "private": true,
+  "dependencies": {
+    "backbone": "^1.4.0",
+    "jquery": "^3.4.1",
+    "underscore": "^1.9.1"
+  },
+  "devDependencies": {
+    "eslint": "^6.0.1",
+    "eslint-config-standart": "^0.2.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.0",
+    "http-server": "^0.11.1"
+  }
+}
