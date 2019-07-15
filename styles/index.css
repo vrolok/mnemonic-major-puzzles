@@ -28,3 +28,19 @@ body {
 	margin-left: 50px;
 	margin-right: 50px;
 }
+
+.puzzle {
+	margin: 30px;
+	font-size: 20px;
+}
+
+.puzzle label {
+	display: block;
+	text-align: center;
+	margin-bottom: 30px;
+}
+
+.puzzle input {
+	outline-style: solid;
+	width: 100px;
+}
