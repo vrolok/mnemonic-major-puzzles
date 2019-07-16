@@ -1,15 +1,16 @@
 var app = app || {};
 
 (function () {
-	'use strict';
+  'use strict';
 
-	app.Puzzle = Backbone.Model.extend({
-		defaults: {
-			title: '',
-			solved: false
-		},
-		toggle: function () {
-			this.set('solved', !this.get('solved'));
-		}
-	});
+  app.Puzzle = Backbone.Model.extend({
+    defaults: {
+      title: '',
+      solved: false
+    },
+
+    toggleSolved() {
+      this.set('solved', true);
+    }
+  });
 }());
