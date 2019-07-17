@@ -57,7 +57,7 @@ var app = app || {};
       }
 
       try {
-        if (transformedQ.length === transformedA.length) {
+        if (transformedQ.length == transformedA.length) {
           // for every letter in A(arr) lets find a match in Q(arr) of arrays
           result = await transformedA.every((v, i) => transformedQ[i].includes(v));
         }
