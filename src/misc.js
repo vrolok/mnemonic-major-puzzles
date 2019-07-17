@@ -31,7 +31,7 @@ var app = app || {};
     },
 
     // checks for exceptions and filter out ignored e.g. [s,h,i,m] => [sh,m]
-    // and e.g. doubbles assess -> [ss,ss] > 00
+    // and e.g. doubbles assess -> [ss, ss] > 00
     transformLetters(arr) {
       return arr.reduce((acc, val, i) => {
         let adjacentLetters = val + arr[i + 1];

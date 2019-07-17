@@ -11,6 +11,11 @@ var app = app || {};
 
     toggleSolved() {
       this.set('solved', true);
+    },
+    
+    save() {
+      // prevent saving anything back to a fake url with data, aka pegs.json file.
+      return true;
     }
   });
 }());

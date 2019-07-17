@@ -7,11 +7,11 @@ var app = app || {};
   app.AppView = Backbone.View.extend({
     el: '#container',
 
-    template: _.template($('#stats-template').html()),
+    template: _.template($('#score-template').html()),
 
-    initialize: function () {
+    initialize() {
       this.$app = this.$('#app');
-      this.$footer = this.$('#footer #stats');
+      this.$stats = this.$('#stats');
 
       this.listenTo(app.puzzles, 'add', this.addOne);
       this.listenTo(app.puzzles, 'change:solved', this.addAgain);
@@ -21,12 +21,10 @@ var app = app || {};
       app.puzzles.fetch({ reset: true });
     },
 
-    render: function $$renderView() {
+    render() {
       var solved = app.puzzles.completed().length;
 
-      this.$footer.html(this.template({
-        completed: solved
-      }));
+      this.$stats.html(this.template({ completed: solved }));
 
       return this;
     },
@@ -43,20 +41,19 @@ var app = app || {};
       await collection.sample(6).map(this.addOne, this);
     },
 
-    makeNumPuzzle() {
-      return app.puzzles.create({ title: _.random(0, 100) });
+    async addAgain(model) {
+      // add 1 random puzzle after one is solved
+      _.random(0, 1)
+        ? await model.collection.sample(1).map(this.addOne, this)
+        : await this.makeNumPuzzle();
+    },
+    
+    async makeNumPuzzle() {
+      await app.puzzles.create({ title: _.random(0, 100) });
     },
 
     async solved() {
       await this.el.remove();
-    },
-
-    addAgain(model) {
-      // add 1 random puzzle
-      _.random(0, 1)
-        ? model.collection.sample(1).map(this.addOne, this)
-        : this.makeNumPuzzle();
     }
-
   });
 }(jQuery));

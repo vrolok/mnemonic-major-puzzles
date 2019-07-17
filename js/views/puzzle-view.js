@@ -12,7 +12,8 @@ var app = app || {};
     template: _.template($('#puzzle-template').html()),
 
     events: {
-      'input': 'compareValues'
+      'input': 'compareValues',
+      'focusout .edit': 'clearValues'
     },
 
     initilize: function $$initilizePV() {
@@ -23,23 +24,28 @@ var app = app || {};
       this.$el.html(this.template(this.model.toJSON()));
       return this;
     },
+    
+    clearValues() {
+      this.$('input.edit').val('');
+      
+    },
 
     compareValues: _.debounce(async function $$compareValues() {
       const transformNumbers = app.misc.transformNumbers.bind(app.misc);
       const transformLetters = app.misc.transformLetters.bind(app.misc);
 
       const q = this.el.innerText;
-      const a = this.$('.edit').val();
+      const a = this.$('input.edit').val();
 
-      console.log(`type ${typeof q} q value: ${q}`);
-      console.log(`type ${typeof a} a value: ${a}`);
+//      console.log(`type ${typeof q} q value: ${q}`);
+//      console.log(`type ${typeof a} a value: ${a}`);
 
       let transformedQ;
       let transformedA;
       let result;
 
       if (Number.isInteger(+q) && a) {
-        // if input is a number, transform input numbers to an arr of letters
+        // if "q" input is a number, transform it to an arr of letters
         // e.g. 42 => [[r], [n]]
         transformedQ = transformNumbers(Array.from(q));
         transformedA = transformLetters(Array.from(a));
@@ -50,17 +56,19 @@ var app = app || {};
         transformedA = transformLetters(Array.from(q));
       }
 
-      //      console.log(`transformedQ = ${transformedQ}, length = ${transformedQ.length}`);
-      //      console.log(`transformedA = ${transformedA}, length = ${transformedA.length} `);
+      try {
+        if (transformedQ.length === transformedA.length) {
+          // for every letter in A(arr) lets find a match in Q(arr) of arrays
+          result = await transformedA.every((v, i) => transformedQ[i].includes(v));
+        }
 
-      if (transformedQ.length === transformedA.length) {
-        // for every letter in A(arr) lets find a match in Q(arr) of arrays
-        result = await transformedA.every((v, i) => transformedQ[i].includes(v));
-      }
-
-      if (result) {
-        this.trigger('solved');
-        this.model.toggleSolved();
+        if (result) {
+          await this.trigger('solved');
+          await this.model.toggleSolved();
+        }
+      } catch(err) {
+        // fail & console out without interrupt
+        console.log(err);
       }
 
       return false;
