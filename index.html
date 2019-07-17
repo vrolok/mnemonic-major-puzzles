@@ -1,46 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-	<meta charset="UTF-8">
-	<title>The major system - Generator</title>
-	<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
-	<link rel="stylesheet" href="styles/normalize.css">
-	<link rel="stylesheet" href="styles/index.css">
+  <meta charset="UTF-8">
+  <title>The major system - Generator</title>
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+  <link rel="stylesheet" href="styles/normalize.css">
+  <link rel="stylesheet" href="styles/index.css">
 </head>
+
 <body>
-	<div id="container">
-		<div id="header">Memorize by solving "major" puzzles</div>
-		<div id="app"></div>
-		<div id="footer">
-			<div id="stats"></div>
-			<div id="info">
-				<p>*Example words extracted from <a href="https://en.wikipedia.org/wiki/Mnemonic_major_system">Wikipedia</a></p>
-			</div>
-		</div>
-		<script type="text/template" id="puzzle-template">
-			<label><%- title %></label>
-			<input class="edit" type=<%= !Number.isInteger(title) ? "number" : "text" %> name="answer"></input>
-		</script>
-		<script type="text/template" id="stats-template">
-			<span class="solved-count"><%- completed %></span>
-			<ul class="filters">
-				<li>
-					<a class="selected" href="#/">Random</a>
-				</li>
-				<li>
-					<a href="#/numbers">Numbers</a>
-				</li>
-				<li>
-					<a href="#/words">Words</a>
-				</li>
-			</ul>
-		</script>
-	</div>
+  <div id="container">
+    <div id="header">Memorize by solving "major" puzzles</div>
+    <div id="app"></div>
+    <div id="footer">
+      <span id="stats"></span>
+      <span id="filters">
+        <label><input type="radio" name="filters" value="random" checked>Random</label>
+        <label><input type="radio" name="filters" value="numbers">Numbers</label>
+        <label><input type="radio" name="filters" value="words">Words</label>
+      </span>
+      <div id="info">
+        <p>*Example words extracted from <a href="https://en.wikipedia.org/wiki/Mnemonic_major_system">Wikipedia</a></p>
+        
+      </div>
+    </div>
+    <script type="text/template" id="puzzle-template">
+      <label><%- title %></label>
+      <input class="edit" type=<%= !Number.isInteger(title) ? "number min=\"0\"" : "text" %> name="answer"></input>
+    </script>
+    <script type="text/template" id="score-template">
+      <p class="solved-count">Score: <%- completed %></p>
+    </script>
+  </div>
 </body>
-<script src="node_modules/underscore/underscore-min.js"></script>
-<script src="node_modules/jquery/dist/jquery.min.js"></script>
-<script src="node_modules/backbone/backbone-min.js"></script>
-<script src="node_modules/backbone.localstorage/build/backbone.localStorage.min.js"></script>
+<script src="node_modules/underscore/underscore.js"></script>
+<script src="node_modules/jquery/dist/jquery.js"></script>
+<script src="node_modules/backbone/backbone.js"></script>
 <script src="src/misc.js"></script>
 <script src="js/models/puzzle.js"></script>
 <script src="js/collections/puzzles.js"></script>
@@ -48,4 +44,5 @@
 <script src="js/views/app-view.js"></script>
 <script src="js/routers/router.js"></script>
 <script src="js/app.js"></script>
+
 </html>
