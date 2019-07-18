@@ -20,7 +20,6 @@ var app = app || {};
       this.listenTo(app.puzzles, 'change:solved', this.addRandom);
       this.listenTo(app.puzzles, 'sync', this.addSome);
       this.listenTo(app.puzzles, 'all', _.debounce(this.render, 0));
-
     },
 
     render() {
@@ -48,12 +47,12 @@ var app = app || {};
         ? await this.addWordPuzzle(this, 1)
         : await this.addNumPuzzle();
     },
-    
+
     async addWordPuzzle(context, n) {
       const size = n || 1;
       await app.puzzles.sample(size).map(this._addOne, this);
     },
-    
+
     async addNumPuzzle() {
       const m = await app.puzzles.create({ title: _.random(0, 100) });
       this._addOne(m);
@@ -62,7 +61,7 @@ var app = app || {};
     async solved() {
       await this.el.remove();
     },
-      
+
     changedRadio(e) {
       this.stopListening(app.puzzles, 'change:solved');
       const filter = $(e.target).val();

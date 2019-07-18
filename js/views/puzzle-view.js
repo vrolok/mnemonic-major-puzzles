@@ -24,10 +24,9 @@ var app = app || {};
       this.$el.html(this.template(this.model.toJSON()));
       return this;
     },
-    
+
     clearValues() {
       this.$('input.edit').val('');
-      
     },
 
     compareValues: _.debounce(async function $$compareValues() {
@@ -37,8 +36,8 @@ var app = app || {};
       const q = this.el.innerText;
       const a = this.$('input.edit').val();
 
-//      console.log(`type ${typeof q} q value: ${q}`);
-//      console.log(`type ${typeof a} a value: ${a}`);
+      //      console.log(`type ${typeof q} q value: ${q}`);
+      //      console.log(`type ${typeof a} a value: ${a}`);
 
       let transformedQ;
       let transformedA;
@@ -57,7 +56,7 @@ var app = app || {};
       }
 
       try {
-        if (transformedQ.length == transformedA.length) {
+        if (transformedQ.length === transformedA.length) {
           // for every letter in A(arr) lets find a match in Q(arr) of arrays
           result = await transformedA.every((v, i) => transformedQ[i].includes(v));
         }
@@ -66,7 +65,7 @@ var app = app || {};
           await this.trigger('solved');
           await this.model.toggleSolved();
         }
-      } catch(err) {
+      } catch (err) {
         // fail & console out without interrupt
         console.log(err);
       }
