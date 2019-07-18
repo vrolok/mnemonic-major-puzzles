@@ -1,3 +1,4 @@
+// vanilla javascript version for a reference
 (function appFactory(window) {
   'use strict';
 
