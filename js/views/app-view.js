@@ -17,12 +17,10 @@ var app = app || {};
       this.$app = this.$('#app');
       this.$stats = this.$('#stats');
 
-      this.listenTo(app.puzzles, 'add', this.addOne);
       this.listenTo(app.puzzles, 'change:solved', this.addRandom);
       this.listenTo(app.puzzles, 'sync', this.addSome);
       this.listenTo(app.puzzles, 'all', _.debounce(this.render, 0));
 
-      app.puzzles.fetch({ reset: true });
     },
 
     render() {
@@ -32,33 +30,33 @@ var app = app || {};
       return this;
     },
 
-    async addOne(model) {
+    async _addOne(model) {
       const view = new app.PuzzleView({ model });
       await this.$app.append(view.render().el);
 
       view.on('solved', this.solved);
     },
 
-    async addSome(collection) {
+    async addSome() {
       // add 6 random puzzles, some from a collection & some with a num
-      await this.makeWordPuzzle(collection, 6);
+      await this.addWordPuzzle(null, 6);
     },
 
-    async addRandom(model) {
+    async addRandom() {
       // add 1 random puzzle after one is solved
       _.random(0, 1)
-        ? await this.makeWordPuzzle(model.collection)
-        : await this.makeNumPuzzle();
+        ? await this.addWordPuzzle(this, 1)
+        : await this.addNumPuzzle();
     },
     
-    async makeWordPuzzle(collection, n) {
-      debugger;
+    async addWordPuzzle(context, n) {
       const size = n || 1;
-      await collection.sample(size).map(this.addOne, this);
+      await app.puzzles.sample(size).map(this._addOne, this);
     },
     
-    async makeNumPuzzle() {
-      await app.puzzles.create({ title: _.random(0, 100) });
+    async addNumPuzzle() {
+      const m = await app.puzzles.create({ title: _.random(0, 100) });
+      this._addOne(m);
     },
 
     async solved() {
@@ -70,10 +68,10 @@ var app = app || {};
       const filter = $(e.target).val();
       switch (filter) {
         case 'words':
-          this.listenTo(app.puzzles, 'change:solved', this.makeWordPuzzle);
+          this.listenTo(app.puzzles, 'change:solved', this.addWordPuzzle);
           break;
         case 'numbers':
-          this.listenTo(app.puzzles, 'change:solved', this.makeNumPuzzle);
+          this.listenTo(app.puzzles, 'change:solved', this.addNumPuzzle);
           break;
         case 'random':
           this.listenTo(app.puzzles, 'change:solved', this.addRandom);
